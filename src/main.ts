@@ -1,6 +1,18 @@
 import { bootstrapApplication } from '@angular/platform-browser';
-import { appConfig } from './app/app.config';
-import { App } from './app/app';
+import { importProvidersFrom } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { withEnabledBlockingInitialNavigation } from '@angular/router';
 
-bootstrapApplication(App, appConfig)
-  .catch((err) => console.error(err));
+import { AppComponent } from './app/app';
+import { routes } from './app/app.routes';
+import { AuthInterceptor } from './app/core/interceptors/auth.interceptor';
+
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideRouter(routes, withEnabledBlockingInitialNavigation()),
+    importProvidersFrom(HttpClientModule, BrowserAnimationsModule),
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ]
+}).catch(err => console.error(err));
