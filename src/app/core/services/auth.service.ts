@@ -46,4 +46,8 @@ export class AuthService {
     const s = localStorage.getItem(this.storageKey);
     return s ? JSON.parse(s) as UserLoginResponse : null;
   }
+
+  isLoggedIn(): boolean {
+    return !!this.getToken();
+  }
 }

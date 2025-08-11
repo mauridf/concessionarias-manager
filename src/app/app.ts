@@ -1,21 +1,49 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { MatToolbarModule } from '@angular/material/toolbar';
+import { HeaderComponent } from './layout/header/header.component';
+import { SidebarComponent } from './layout/sidebar/sidebar.component';
+import { AuthService } from './core/services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, MatToolbarModule],
+  imports: [RouterOutlet, HeaderComponent, SidebarComponent, CommonModule],
   template: `
-    <mat-toolbar color="primary">
-      Concessionárias Manager
-    </mat-toolbar>
-    <main class="main">
+    <ng-container *ngIf="auth.isLoggedIn(); else loginPage">
+      <app-header></app-header>
+      <app-sidebar></app-sidebar>
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+    </ng-container>
+
+    <ng-template #loginPage>
       <router-outlet></router-outlet>
-    </main>
+    </ng-template>
   `,
   styles: [`
-    .main { padding: 24px; display:flex; justify-content:center; }
+    :host {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      margin: 0;
+    }
+    app-header {
+      flex-shrink: 0;
+    }
+    app-sidebar {
+      flex-shrink: 0;
+    }
+    .content {
+      margin-top: 64px;
+      margin-left: 240px;
+      padding: 24px;
+      height: calc(100vh - 64px);
+      overflow-y: auto;
+    }
   `]
 })
-export class AppComponent {}
+export class AppComponent {
+  constructor(public auth: AuthService) {}
+}

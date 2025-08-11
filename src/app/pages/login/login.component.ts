@@ -1,4 +1,3 @@
-// src/app/pages/login/login.component.ts
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
@@ -54,6 +53,13 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
   </mat-card>
   `,
   styles: [`
+    .login-wrapper {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f5f5f5;
+    }
     .login-card { width: 420px; padding: 24px; }
     .full { width: 100%; display:block; margin-bottom: 12px; }
     button.full { display:flex; justify-content:center; align-items:center; height:48px; }
@@ -87,7 +93,7 @@ export class LoginComponent {
     this.auth.login(email, senha).subscribe({
       next: () => {
         this.loading = false;
-        this.router.navigate(['/']);
+        this.router.navigate(['/home']);
       },
       error: (err) => {
         this.loading = false;
