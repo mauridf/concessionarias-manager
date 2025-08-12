@@ -26,31 +26,33 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     MatSnackBarModule
   ],
   template: `
-  <mat-card class="login-card">
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <h2>Entrar</h2>
+  <div class="login-wrapper">
+    <mat-card class="login-card">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <h2>Entrar</h2>
 
-      <mat-form-field appearance="outline" class="full">
-        <mat-label>E-mail</mat-label>
-        <input matInput formControlName="email" placeholder="seu@exemplo.com" type="email" required>
-        <mat-error *ngIf="form.get('email')?.invalid && form.get('email')?.touched">E-mail inválido</mat-error>
-      </mat-form-field>
+        <mat-form-field appearance="outline" class="full">
+          <mat-label>E-mail</mat-label>
+          <input matInput formControlName="email" placeholder="seu@exemplo.com" type="email" required>
+          <mat-error *ngIf="form.get('email')?.invalid && form.get('email')?.touched">E-mail inválido</mat-error>
+        </mat-form-field>
 
-      <mat-form-field appearance="outline" class="full">
-        <mat-label>Senha</mat-label>
-        <input matInput formControlName="senha" [type]="hide ? 'password' : 'text'">
-        <button mat-icon-button matSuffix type="button" (click)="hide = !hide">
-          <mat-icon>{{ hide ? 'visibility' : 'visibility_off' }}</mat-icon>
+        <mat-form-field appearance="outline" class="full">
+          <mat-label>Senha</mat-label>
+          <input matInput formControlName="senha" [type]="hide ? 'password' : 'text'">
+          <button mat-icon-button matSuffix type="button" (click)="hide = !hide">
+            <mat-icon>{{ hide ? 'visibility' : 'visibility_off' }}</mat-icon>
+          </button>
+          <mat-error *ngIf="form.get('senha')?.invalid && form.get('senha')?.touched">Senha obrigatória</mat-error>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" class="full" [disabled]="form.invalid || loading">
+          <span *ngIf="!loading">Entrar</span>
+          <mat-progress-spinner *ngIf="loading" diameter="20" mode="indeterminate"></mat-progress-spinner>
         </button>
-        <mat-error *ngIf="form.get('senha')?.invalid && form.get('senha')?.touched">Senha obrigatória</mat-error>
-      </mat-form-field>
-
-      <button mat-raised-button color="primary" class="full" [disabled]="form.invalid || loading">
-        <span *ngIf="!loading">Entrar</span>
-        <mat-progress-spinner *ngIf="loading" diameter="20" mode="indeterminate"></mat-progress-spinner>
-      </button>
-    </form>
-  </mat-card>
+      </form>
+    </mat-card>
+  </div>
   `,
   styles: [`
     .login-wrapper {
