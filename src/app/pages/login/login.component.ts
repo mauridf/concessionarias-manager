@@ -85,6 +85,10 @@ export class LoginComponent {
     });
   }
 
+  ngOnInit() {
+    this.auth.logout();  // Limpa token e usuário ao abrir a tela de login
+  }
+  
   onSubmit() {
     if (this.form.invalid) return;
     this.loading = true;
