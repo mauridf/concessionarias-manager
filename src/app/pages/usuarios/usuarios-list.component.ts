@@ -21,10 +21,12 @@ import { DataTableComponent } from '../../shared/components/data-table/data-tabl
   ],
   template: `
     <h1>USUÁRIOS CADASTRADOS</h1>
-    <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
-        <button mat-flat-button color="primary" (click)="novoUsuario()">NOVO</button>
+    
+    <div class="actions-container">
+      <button mat-flat-button color="primary" (click)="novoUsuario()">NOVO</button>
     </div>
-    <div class="filters">
+
+    <div class="filters-container">
       <mat-form-field appearance="outline">
         <mat-label>Pesquisar Nome</mat-label>
         <input matInput [(ngModel)]="search" (keyup.enter)="loadUsers()" placeholder="Digite para pesquisar">
@@ -54,10 +56,21 @@ import { DataTableComponent } from '../../shared/components/data-table/data-tabl
   `,
   styles: [`
     h1 { margin-bottom: 20px; }
-    .filters {
+    
+    .actions-container {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    
+    .filters-container {
       display: flex;
       gap: 16px;
       margin-bottom: 20px;
+    }
+    
+    mat-form-field {
+      width: 300px;
     }
   `]
 })
