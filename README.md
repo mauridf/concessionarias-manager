@@ -1,59 +1,80 @@
-# ConcessionariasManager
+# ConcessionariaManager Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.3.
+Este é o frontend do sistema **ConcessionariaManager**, desenvolvido em **Angular** no modo standalone,
+utilizando **Angular Material** para estilização.
 
-## Development server
+## 🚀 Tecnologias Utilizadas
 
-To start a local development server, run:
+- [Angular 17+](https://angular.io/)
+- [Angular Material](https://material.angular.io/)
+- TypeScript
+- HTML5 / CSS3
 
+## 📦 Instalação
+
+1. Clone este repositório:
+   ```bash
+   git clone https://github.com/seu-usuario/concessionariamanager-frontend.git
+   ```
+
+2. Entre na pasta do projeto:
+   ```bash
+   cd concessionariamanager-frontend
+   ```
+
+3. Instale as dependências:
+   ```bash
+   npm install
+   ```
+
+## ▶️ Executando o Projeto
+
+Para rodar o projeto em modo desenvolvimento:
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+O aplicativo estará disponível em: [http://localhost:4200](http://localhost:4200)
 
-## Code scaffolding
+## 🔐 Autenticação
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+O sistema utiliza **JWT (JSON Web Token)** para autenticação e controle de acesso por **Roles**:
+- Gerente
+- Vendedor
+- Mecânico
 
-```bash
-ng generate component component-name
+## 📂 Estrutura de Pastas
+
+```
+src/
+ ├── app/
+ │   ├── core/            # Serviços, guards e interceptors
+ │   ├── pages/           # Páginas do sistema
+ │   ├── shared/          # Componentes compartilhados
+ │   ├── app.routes.ts    # Definição das rotas
+ │   └── app.ts           # Componente raiz
+ ├── assets/              # Arquivos estáticos
+ └── styles.css           # Estilos globais
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## 🌐 Integração com Backend
 
-```bash
-ng generate --help
+O frontend consome a API **ConcessionariaManager**, que por padrão roda em:
+```
+http://localhost:8080
 ```
 
-## Building
+As configurações de URLs podem ser alteradas no arquivo `environment.ts`.
 
-To build the project run:
+## 🛠️ Build
 
+Para gerar a versão de produção:
 ```bash
-ng build
+ng build --configuration production
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Os arquivos gerados ficarão na pasta `dist/`.
 
-## Running unit tests
+## 📜 Licença
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Este projeto está sob a licença MIT.
