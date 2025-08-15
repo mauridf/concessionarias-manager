@@ -5,6 +5,12 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
+export interface TableColumn {
+  key: string;
+  header: string;
+  formatter?: (value: any) => string; // Novo campo opcional
+}
+
 @Component({
   selector: 'app-data-table',
   standalone: true,
@@ -14,7 +20,9 @@ import { MatButtonModule } from '@angular/material/button';
 
       <ng-container *ngFor="let col of columns" [matColumnDef]="col.key">
         <th mat-header-cell *matHeaderCellDef>{{ col.header }}</th>
-        <td mat-cell *matCellDef="let element">{{ element[col.key] }}</td>
+        <td mat-cell *matCellDef="let element">
+          {{ col.formatter ? col.formatter(element[col.key]) : element[col.key] }}
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="actions">
@@ -26,6 +34,16 @@ import { MatButtonModule } from '@angular/material/button';
           <button mat-icon-button color="warn" (click)="delete.emit(element)">
             <mat-icon>delete</mat-icon>
           </button>
+
+          <!-- Botões só para tela de veículos -->
+          <ng-container *ngIf="showVehicleActions">
+            <button mat-icon-button (click)="verDadosTecnicos.emit(element)">
+              <mat-icon>build</mat-icon>
+            </button>
+            <button mat-icon-button (click)="verDocumentacao.emit(element)">
+              <mat-icon>description</mat-icon>
+            </button>
+          </ng-container>
         </td>
       </ng-container>
 
@@ -48,11 +66,15 @@ import { MatButtonModule } from '@angular/material/button';
   `]
 })
 export class DataTableComponent {
-  @Input() columns: { key: string; header: string }[] = [];
+  @Input() columns: TableColumn[] = [];
   @Input() data: any[] = [];
   @Input() totalElements = 0;
   @Input() pageSize = 10;
   @Input() pageIndex = 0;
+
+  @Input() showVehicleActions = false;
+  @Output() verDadosTecnicos = new EventEmitter<any>();
+  @Output() verDocumentacao = new EventEmitter<any>();
 
   @Output() pageChange = new EventEmitter<PageEvent>();
   @Output() edit = new EventEmitter<any>();

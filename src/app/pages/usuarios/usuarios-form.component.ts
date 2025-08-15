@@ -18,7 +18,7 @@ import { User, UserService } from '../../core/services/user.service';
     MatButtonModule, MatDialogModule, MatSnackBarModule
   ],
   template: `
-    <h2>{{ data?.user ? 'EDITAR' : 'REGISTRAR' }} USUÁRIO</h2>
+    <h2>{{ data.user ? 'EDITAR' : 'REGISTRAR' }} USUÁRIO</h2>
 
     <form (ngSubmit)="onSave()" class="form-container">
       <mat-form-field appearance="outline">
@@ -31,7 +31,7 @@ import { User, UserService } from '../../core/services/user.service';
         <input matInput [(ngModel)]="user.email" name="email" required>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" *ngIf="!data?.user">
+      <mat-form-field appearance="outline" *ngIf="!data.user">
         <mat-label>Senha</mat-label>
         <input matInput type="password" [(ngModel)]="user.senha" name="senha" required>
       </mat-form-field>
