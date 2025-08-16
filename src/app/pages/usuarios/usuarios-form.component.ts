@@ -7,15 +7,16 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatIconModule } from '@angular/material/icon';
 import { User, UserService } from '../../core/services/user.service';
 
 @Component({
   selector: 'app-usuario-form',
   standalone: true,
   imports: [
-    CommonModule, FormsModule, 
-    MatFormFieldModule, MatInputModule, MatSelectModule, 
-    MatButtonModule, MatDialogModule, MatSnackBarModule
+    CommonModule, FormsModule,
+    MatFormFieldModule, MatInputModule, MatSelectModule,
+    MatButtonModule, MatDialogModule, MatSnackBarModule, MatIconModule
   ],
   template: `
     <h2>{{ data.user ? 'EDITAR' : 'REGISTRAR' }} USUÁRIO</h2>
@@ -31,9 +32,19 @@ import { User, UserService } from '../../core/services/user.service';
         <input matInput [(ngModel)]="user.email" name="email" required>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" *ngIf="!data.user">
+      <mat-form-field appearance="outline">
         <mat-label>Senha</mat-label>
-        <input matInput type="password" [(ngModel)]="user.senha" name="senha" required>
+        <input matInput
+               [type]="hidePassword ? 'password' : 'text'"
+               [(ngModel)]="user.senha"
+               name="senha"
+               [required]="!data.user">
+        <button mat-icon-button
+                matSuffix
+                type="button"
+                (click)="hidePassword = !hidePassword">
+          <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
@@ -72,6 +83,7 @@ import { User, UserService } from '../../core/services/user.service';
 })
 export class UsuarioFormComponent implements OnInit {
   user: any = { nome: '', email: '', senha: '', role: '' };
+  hidePassword = true; // controla visibilidade da senha
 
   constructor(
     public dialogRef: MatDialogRef<UsuarioFormComponent>,
@@ -82,20 +94,26 @@ export class UsuarioFormComponent implements OnInit {
 
   ngOnInit() {
     if (this.data?.user) {
-      this.user = { ...this.data.user }; // copia para edição
+      setTimeout(() => {
+        // this.user = { ...this.data.user, senha: '' }; // senha vazia para segurança
+        this.user = { ...this.data.user };
+      });
     }
   }
 
   onSave() {
+    const payload = { ...this.user };
+
     if (this.data?.user) {
-      // Edição
-      this.userService.updateUser(this.user.id, this.user).subscribe(() => {
+      if (!payload.senha) {
+        delete payload.senha; // não envia senha vazia
+      }
+      this.userService.updateUser(this.user.id, payload).subscribe(() => {
         this.snack.open('Usuário atualizado com sucesso!', 'Fechar', { duration: 3000 });
         this.dialogRef.close(true);
       });
     } else {
-      // Cadastro
-      this.userService.createUser(this.user).subscribe(() => {
+      this.userService.createUser(payload).subscribe(() => {
         this.snack.open('Usuário registrado com sucesso!', 'Fechar', { duration: 3000 });
         this.dialogRef.close(true);
       });

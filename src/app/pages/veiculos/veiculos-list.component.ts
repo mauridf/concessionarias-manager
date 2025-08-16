@@ -8,7 +8,9 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { DataTableComponent } from '../../shared/components/data-table/data-table.component';
 import { VeiculoService, Veiculo } from '../../core/services/veiculo.service';
-// import { VeiculoFormComponent } from './veiculos-form.component';
+import { VeiculoFormComponent } from './veiculo-form.component';
+import { DadosTecnicosFormComponent } from './dados-tecnicos-veiculo-form.component';
+import { DocumentacaoFormComponent } from './documento-veiculo-form.component';
 
 @Component({
   selector: 'app-veiculos-list',
@@ -166,6 +168,7 @@ export class VeiculosListComponent implements OnInit {
         this.veiculos = page.content;
         this.totalElements = page.totalElements;
       });
+      this.loadFiltros();
   }
 
   loadFiltros() {
@@ -185,19 +188,43 @@ export class VeiculosListComponent implements OnInit {
   }
 
   novoVeiculo() {
-    // abrir modal futura
+    const dialogRef = this.dialog.open(VeiculoFormComponent, {
+      width: '600px', // mais largo
+      maxHeight: '90vh', // evita passar da tela
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) this.loadVeiculos();
+    });
   }
 
   editVeiculo(veiculo: Veiculo) {
-    // abrir modal futura
+    const dialogRef = this.dialog.open(VeiculoFormComponent, {
+      width: '600px',
+      maxHeight: '90vh',
+      data: { veiculo }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) this.loadVeiculos();
+    });
   }
 
   verDadosTecnicos(veiculo: Veiculo) {
-    // abrir modal futura
+      if (!veiculo.id) return;
+      this.dialog.open(DadosTecnicosFormComponent, {
+          width: '500px',
+          data: { veiculoId: veiculo.id }
+      });
   }
 
   verDocumentacao(veiculo: Veiculo) {
-    // abrir modal futura
+     if (!veiculo.id) return;
+     this.dialog.open(DocumentacaoFormComponent, {
+         width: '500px',
+         data: { veiculoId: veiculo.id }
+     });
   }
 
   confirmDelete(veiculo: Veiculo) {

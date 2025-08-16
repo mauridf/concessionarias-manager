@@ -12,6 +12,7 @@ export interface Veiculo {
   anoModelo: number;
   categoria: string;
   tipoVeiculo: string;
+  foto: string;
   combustivel: string;
   cambio: string;
   cor: string;
@@ -129,4 +130,14 @@ export class VeiculoService {
       withCredentials: true
     });
   }
+
+  // Documentação
+  createDocumentacao(dto: any) { return this.http.post(`${environment.apiUrl}/documentacao`, dto); }
+  updateDocumentacao(id: string, dto: any) { return this.http.put(`${environment.apiUrl}/documentacao/${id}`, dto); }
+  getDocumentacaoByVeiculo(veiculoId: string) { return this.http.get(`${environment.apiUrl}/documentacao/veiculo/${veiculoId}`); }
+
+  // Dados Técnicos
+  createDadosTecnicos(dto: any) { return this.http.post(`${environment.apiUrl}/dados-tecnicos`, dto); }
+  updateDadosTecnicos(id: string, dto: any) { return this.http.put(`${environment.apiUrl}/dados-tecnicos/${id}`, dto); }
+  getDadosTecnicosByVeiculo(veiculoId: string) { return this.http.get(`${environment.apiUrl}/dados-tecnicos/veiculo/${veiculoId}`); }
 }
