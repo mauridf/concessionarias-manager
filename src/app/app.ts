@@ -4,11 +4,12 @@ import { HeaderComponent } from './layout/header/header.component';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { AuthService } from './core/services/auth.service';
 import { CommonModule } from '@angular/common';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, SidebarComponent, CommonModule],
+  imports: [RouterOutlet, HeaderComponent, SidebarComponent, CommonModule, MatNativeDateModule],
   template: `
     <ng-container *ngIf="auth.isLoggedIn(); else loginPage">
       <app-header></app-header>
