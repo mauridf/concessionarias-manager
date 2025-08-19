@@ -30,6 +30,13 @@ export class UserService {
     });
   }
 
+  getUserById(id: string): Observable<User> {
+    return this.http.get<User>(`${environment.apiUrl}/users/${id}`, {
+      headers: this.getHeaders(),
+      withCredentials: true
+    });
+  }
+
   getUsers(page = 0, size = 10, sort = 'nome,asc', search?: string): Observable<Page<User>> {
     let params = new HttpParams()
       .set('page', page.toString())
